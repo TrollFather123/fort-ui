@@ -229,7 +229,7 @@ const AddEmployee = () => {
                   minWidth: "200px",
                 }}
                 type="submit"
-                disabled={createEmployeeLoading}
+                disabled={createEmployeeLoading || imageLoading}
               >
                 {createEmployeeLoading ? <CircularProgress /> : "Submit"}
               </Button>
