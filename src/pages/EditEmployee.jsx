@@ -22,7 +22,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useImageUpload from "../hooks/useImageUpload";
 
 const EditEmployee = () => {
-  const {imageUrl, handelImageUpload} = useImageUpload();
+  const {imageUrl, handelImageUpload,imageLoading} = useImageUpload();
 
 
   const { control, handleSubmit, reset, setValue } = useForm({
@@ -239,7 +239,7 @@ const EditEmployee = () => {
                         {error?.message}
                       </Typography>
                     )}
-                  
+                   {imageLoading && <Typography>Uploading...</Typography>}
                     {imageUrl || singleEmployee?.image ? (
                       <figure
                         style={{

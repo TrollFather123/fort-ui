@@ -21,7 +21,7 @@ import useImageUpload from "../hooks/useImageUpload";
 
 const AddEmployee = () => {
 
-    const {imageUrl, handelImageUpload} = useImageUpload();
+    const {imageUrl, handelImageUpload , imageLoading} = useImageUpload();
 
   const { control, handleSubmit ,reset} = useForm({
     resolver: yupResolver(employeeSchema),
@@ -202,18 +202,7 @@ const AddEmployee = () => {
                         {error?.message}
                       </Typography>
                     )}
-                    {/* {loading && <Typography>Uploading Image...</Typography>}
-                    {uploadError && (
-                      <Typography
-                        sx={{
-                          color: (theme) => theme.palette.error.main,
-                          fontSize: "0.75rem",
-                          margin: "3px 14px 0px 14px",
-                        }}
-                      >
-                        {uploadError}
-                      </Typography>
-                    )} */}
+                    {imageLoading && <Typography>Uploading...</Typography>}
                     {imageUrl && (
                       <figure
                         style={{
