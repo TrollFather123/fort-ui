@@ -13,15 +13,15 @@ import { CustomFormWrapper } from "../styles/CustomFormWrapper";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { employeeSchema } from "../yup/yup";
-import useImageToBase64 from "../hooks/useImageToBase64";
 import { useDispatch, useSelector } from "react-redux";
 import { createEmployee } from "../redux/slice/employeeSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import useImageUpload from "../hooks/useImageUpload";
 
 const AddEmployee = () => {
-  const { base64String, loading, uploadError, convertImageToBase64 } =
-    useImageToBase64();
+
+    const {imageUrl, handelImageUpload} = useImageUpload();
 
   const { control, handleSubmit ,reset} = useForm({
     resolver: yupResolver(employeeSchema),
@@ -40,15 +40,9 @@ const AddEmployee = () => {
 
   const dispatch = useDispatch();
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      convertImageToBase64(file);
-    }
-  };
 
   const formSubmit = (data) => {
-    const payload = { ...data, image: base64String };
+    const payload = { ...data, image: imageUrl };
 
     dispatch(createEmployee(payload))
       .unwrap()
@@ -193,7 +187,7 @@ const AddEmployee = () => {
                       type="file"
                       accept="*/image"
                       onChange={(e) => {
-                        handleImageChange(e);
+                        handelImageUpload(e.target.files[0]);
                         props.onChange(e.target.files[0]);
                       }}
                     />
@@ -208,7 +202,7 @@ const AddEmployee = () => {
                         {error?.message}
                       </Typography>
                     )}
-                    {loading && <Typography>Uploading Image...</Typography>}
+                    {/* {loading && <Typography>Uploading Image...</Typography>}
                     {uploadError && (
                       <Typography
                         sx={{
@@ -219,15 +213,15 @@ const AddEmployee = () => {
                       >
                         {uploadError}
                       </Typography>
-                    )}
-                    {base64String && (
+                    )} */}
+                    {imageUrl && (
                       <figure
                         style={{
                           marginTop: "15px",
                         }}
                       >
                         <img
-                          src={base64String}
+                          src={imageUrl}
                           alt="uploaded image"
                           width={150}
                           height={150}

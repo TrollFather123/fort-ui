@@ -3,24 +3,27 @@ import * as yup from "yup";
 export const employeeSchema = yup.object().shape({
   fullName: yup.string().trim().required("Full Name is Required"),
   email: yup
-  .string()
-  .trim()
-  .email("Invalid email format")
-  .required("Email is required"),
+    .string()
+    .trim()
+    .email("Invalid email format")
+    .required("Email is required"),
   phone: yup
-  .string()
-  .trim()
-  .length(10, "Phone number must be exactly 10 digits")
-  .required("Phone is Required"),
+    .string()
+    .trim()
+    .length(10, "Phone number must be exactly 10 digits")
+    .required("Phone is Required"),
   image: yup
     .mixed()
     .required("Image is Required")
-    .test("fileType", "Unsupported file format, onlye JPEG and JPG are allowed", (value) => {
+    .test("fileType", "Unsupported file format", (value) => {
       return (
         value &&
         [
           "image/jpeg",
           "image/jpg",
+          "image/svg",
+          "image/png",
+          "image/webp",
         ].includes(value.type)
       );
     })
@@ -31,32 +34,31 @@ export const employeeSchema = yup.object().shape({
   salary: yup.number().required("Salary is Required"),
 });
 
-
-
-
 export const updateEmployeeSchema = yup.object().shape({
   fullName: yup.string().trim().required("Full Name is Required"),
   email: yup
-  .string()
-  .trim()
-  .email("Invalid email format")
-  .required("Email is required"),
+    .string()
+    .trim()
+    .email("Invalid email format")
+    .required("Email is required"),
   phone: yup
-  .string()
-  .trim()
-  .length(10, "Phone number must be exactly 10 digits")
-  .required("Phone is Required"),
+    .string()
+    .trim()
+    .length(10, "Phone number must be exactly 10 digits")
+    .required("Phone is Required"),
   image: yup
-  .mixed()
-  .nullable() 
-  .test(
-    "fileType",
-    "Unsupported file format, only JPEG and JPG are allowed",
-    (value) => {
-      if (value === null) return true; 
-      return ["image/jpeg", "image/jpg"].includes(value.type); 
-    }
-  ),
+    .mixed()
+    .nullable()
+    .test("fileType", "Unsupported file format", (value) => {
+      if (value === null) return true;
+      return [
+        "image/jpeg",
+        "image/jpg",
+        "image/svg",
+        "image/png",
+        "image/webp",
+      ].includes(value.type);
+    }),
 
   age: yup.string().trim().required("Age is Required"),
   salary: yup.number().required("Salary is Required"),
